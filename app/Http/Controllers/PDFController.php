@@ -17,7 +17,12 @@ class PDFController extends Controller
         $userId = auth()->id();
 
         // Retrieve budgets for the authenticated user and the selected fiscal year
-        $budgets = Budget::where('user_id', $userId)
+        // $budgets = Budget::where('user_id', $userId)
+        //     ->where('fiscal_year', $budget->fiscal_year)
+        //     ->get();
+
+        $budgets = Budget::with('items')
+            ->where('user_id', $userId)
             ->where('fiscal_year', $budget->fiscal_year)
             ->get();
 

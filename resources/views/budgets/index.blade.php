@@ -5,7 +5,8 @@
 
 @section('content')
 
-    <h1>Budgets</h1>
+</br>
+
     @if (session('success'))
         <div>{{ session('success') }}</div>
     @endif
@@ -85,59 +86,44 @@
             </thead>
             <tbody>
                 @foreach ($fiscalYears as $year => $yearBudgets)
-                    @php $rowCount = $yearBudgets->count(); @endphp
-                    @foreach ($yearBudgets as $index => $budget)
-                        <tr>
-                            <td>{{ $loop->parent->iteration }}.{{ $loop->iteration }}</td>
-                            @if ($loop->first)
-                                <td rowspan="{{ $rowCount }}">
-                                    <a href="{{ route('budgets.show', $budget) }}">
-                                        {{ $budget->fiscal_year }}
-                                    </a>
-                                </td>
-                            @endif
-                            {{-- <td style="text-align: left;">
-                                @foreach ($budget->items as $item)
-                                    {{ $item->item_name }}<br>
-                                @endforeach
-                            </td> --}}
-                            {{-- <td>{{ $budget->item_name }}</td> --}}
-                            <td>{{ $budget->allocation }}</td>
-                            <td>{{ $budget->expenditure }}</td>
-                            <td>{{ $budget->unused }}</td>
-                            {{-- <td>{{ $budget->item_name }}</td> --}}
-                            {{-- <td>
-                                <strong>
-                                    {{ \App\Helpers\NumberHelper::toBangla($budgets->sum('unused') - ($charges->sum('check_fee') + $charges->sum('bank_charge') + $charges->sum('unspent_refund'))) }}
-                                </strong>
-                            </td> --}}
-                            {{-- <td><strong>{{ \App\Helpers\NumberHelper::toBangla($totalUnusedBudget) }}</strong></td> --}}
-                            <td>
-                                <a href="{{ route('budgets.show', $budget) }}" class="btn btn-primary">View</a>
-                                <a href="{{ route('budgets.edit', $budget) }}" class="btn btn-primary">Edit</a>
-                                <form action="{{ route('budgets.destroy', $budget) }}" method="POST"
-                                    style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
+                @php
+                    $rowCount = $yearBudgets->count();
+                    $totalUnused = $yearBudgets->sum('unused');
+                    $totalCharges = $charges->where('fiscal_year', $year)->sum('check_fee')
+                                    + $charges->where('fiscal_year', $year)->sum('bank_charge')
+                                    + $charges->where('fiscal_year', $year)->sum('unspent_refund');
+                    $finalUnusedBudget = $totalUnused - $totalCharges;
+                @endphp
+                @foreach ($yearBudgets as $index => $budget)
                     <tr>
-                        <td colspan="2"><strong>{{ $year }} অর্থবছরের সর্বশেষ অব্যয়িত টাকা</strong></td>
-                        {{-- <td colspan="3"><strong>{{ \App\Helpers\NumberHelper::toBangla($totalUnusedBudget) }}</strong></td> --}}
-                        {{-- <td>{{ $yearBudgets->sum('allocation') }}</td>
-                        <td>{{ $yearBudgets->sum('expenditure') }}</td>
-                        <td>{{ $yearBudgets->sum('unused') }}</td> --}}
-
-                        {{-- <td> {{ \App\Helpers\NumberHelper::toBangla($budgets->sum('unused') - ($charges->sum('check_fee') + $charges->sum('bank_charge') + $charges->sum('unspent_refund'))) }} </td> --}}
-
-                        <td colspan="3"><strong>{{ $budget->unused }}</strong></td>
-                        {{-- <td colspan="3"><strong>{{ $yearBudgets->sum('unused') - ($charges->sum('check_fee') + $charges->sum('bank_charge') + $charges->sum('unspent_refund')) }}</strong></td> --}}
-                        {{-- <td colspan="3"><strong>{{ $yearBudgets->sum('unused') - ($charges->check_fee + $charges->bank_charge + $charges->unspent_refund) }}</strong></td> --}}
+                        <td>{{ $loop->parent->iteration }}.{{ $loop->iteration }}</td>
+                        @if ($loop->first)
+                            <td rowspan="{{ $rowCount }}">
+                                <a href="{{ route('budgets.show', $budget) }}">
+                                    {{ $budget->fiscal_year }}
+                                </a>
+                            </td>
+                        @endif
+                        <td>{{ $budget->allocation }}</td>
+                        <td>{{ $budget->expenditure }}</td>
+                        <td>{{ $budget->unused }}</td>
+                        <td>
+                            <a href="{{ route('budgets.show', $budget) }}" class="btn btn-primary">View</a>
+                            <a href="{{ route('budgets.edit', $budget) }}" class="btn btn-primary">Edit</a>
+                            <form action="{{ route('budgets.destroy', $budget) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
+                <tr>
+                    <td colspan="2"><strong>{{ $year }} Fiscal Year Remaining Unused Budget</strong></td>
+                    <td colspan="3"><strong>{{ $finalUnusedBudget }}</strong></td>
+                </tr>
+            @endforeach
+
             </tbody>
         </table>
     @endif

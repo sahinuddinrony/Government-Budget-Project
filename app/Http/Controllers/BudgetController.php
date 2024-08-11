@@ -34,6 +34,10 @@ class BudgetController extends Controller
                 // dd($budgets);
             }
 
+            // $totalAllocation = 0;
+            // $totalExpenditure = 0;
+            // totalUnusedBudget = 0;
+
             // $charges = Charge::where('user_id', $user->id)->get();
             // dd($charges);
 
@@ -103,6 +107,7 @@ class BudgetController extends Controller
 
         // Retrieve budgets for the authenticated user and the selected fiscal year
         // $budgets = Budget::with('charges')
+
         $budgets = Budget::with('items')
             ->where('user_id', $userId)
             ->where('fiscal_year', $budget->fiscal_year)
@@ -125,40 +130,62 @@ class BudgetController extends Controller
 
 
     public function edit(Budget $budget)
-{
-    $userId = auth()->id();
+    {
+        $userId = auth()->id();
 
-    // Retrieve the budget items and charges
-    $budget->load('items');
-    $charges = Charge::where('user_id', $userId)
-        ->where('fiscal_year', $budget->fiscal_year)
-        ->get();
+        // Retrieve the budget items and charges
+        // $budget->load('items');
 
-    return view('budgets.edit', compact('budget', 'charges'));
-}
+        // Eager load budget items and charges in a single query
+        $budget = Budget::with('items')
+            ->where('id', $budget->id)
+            ->first();
 
-public function update(Request $request, Budget $budget)
-{
-    $request->validate([
-        'fiscal_year' => 'required',
-        'items.*.item_code' => 'required',
-        'items.*.item_name' => 'required',
-        'items.*.item_allocation' => 'required|numeric',
-        'items.*.item_expenditure' => 'required|numeric',
-        'items.*.item_unused' => 'required|numeric',
-    ]);
+        $charges = Charge::where('user_id', $userId)
+            ->where('fiscal_year', $budget->fiscal_year)
+            ->get();
 
-    $budget->update($request->only(['fiscal_year']));
-
-    foreach ($request->items as $itemData) {
-        $item = $budget->items()->find($itemData['id']);
-        if ($item) {
-            $item->update($itemData);
-        }
+        return view('budgets.edit', compact('budget', 'charges'));
     }
 
-    return redirect()->route('budgets.show', $budget->id)->with('success', 'Budget updated successfully.');
-}
+    public function update(Request $request, Budget $budget)
+    {
+        $data = $request->validate([
+            'fiscal_year' => 'required',
+            'items.*.item_code' => 'required',
+            'items.*.item_name' => 'required',
+            'items.*.item_allocation' => 'required|numeric',
+            'items.*.item_expenditure' => 'required|numeric',
+            'items.*.item_unused' => 'required|numeric',
+        ]);
+
+
+        // $budget->update($request->only(['fiscal_year', 'item_allocation']));
+
+        $totalAllocation = 0;
+        $totalExpenditure = 0;
+
+        foreach ($data['items'] as $itemData) {
+            $totalAllocation += $itemData['item_allocation'];
+            $totalExpenditure += $itemData['item_expenditure'];
+        }
+
+        $budget->update([
+            'fiscal_year' => $data['fiscal_year'],
+            'allocation' => $totalAllocation,
+            'expenditure' => $totalExpenditure,
+            'unused' => $totalAllocation - $totalExpenditure,
+        ]);
+
+        foreach ($request->items as $itemData) {
+            $item = $budget->items()->find($itemData['id']);
+            if ($item) {
+                $item->update($itemData);
+            }
+        }
+
+        return redirect()->route('budgets.show', $budget->id)->with('success', 'Budget updated successfully.');
+    }
 
     public function destroy(Budget $budget)
     {
