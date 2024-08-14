@@ -7,6 +7,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\ChargeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserApproveController;
 
 Route::get('/', function () {
@@ -21,6 +22,8 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('budgets', BudgetController::class);
     Route::resource('charges', ChargeController::class);
+
+    Route::get('/totalBudgetSammry', [SearchController::class, 'summary'])->name('search.summary');
 
     Route::get('/budgets/{budget}/pdf', [PDFController::class, 'downloadPDF'])->name('budgets.pdf');
 

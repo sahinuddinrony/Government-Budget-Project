@@ -1,5 +1,3 @@
-{{-- <!DOCTYPE html>
-<html> --}}
 
 @extends('layouts.app')
 
@@ -12,6 +10,7 @@
     @endif
 
     <a href="{{ route('budgets.create') }}" class="btn btn-primary mb-3">Create New Budget</a>
+    <a href="{{ route('search.summary') }}" class="btn btn-primary mb-3">Total Budget Summary</a>
 
     @if ($role === \App\Constants\Role::ADMIN)
         <a href="{{ route('budgets.create') }}" class="btn btn-primary mb-3">Create New Budget</a>
@@ -108,12 +107,12 @@
                         <td>{{ $budget->expenditure }}</td>
                         <td>{{ $budget->unused }}</td>
                         <td>
-                            <a href="{{ route('budgets.show', $budget) }}" class="btn btn-primary">View</a>
+                            <a href="{{ route('budgets.show', $budget) }}" class="btn btn-info">View</a>
                             <a href="{{ route('budgets.edit', $budget) }}" class="btn btn-primary">Edit</a>
                             <form action="{{ route('budgets.destroy', $budget) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+                                <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-danger">Delete</button>
                             </form>
                         </td>
                     </tr>
@@ -130,4 +129,3 @@
 
 @endsection
 
-{{-- </html> --}}

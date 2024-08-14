@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Budget;
 use App\Models\Charge;
+use App\Constants\Role;
 use Illuminate\Http\Request;
 
 class ChargeController extends Controller
@@ -12,7 +13,19 @@ class ChargeController extends Controller
     public function index()
     {
         // $charges = Charge::with('budget', 'user')->get();
-        $charges = Charge::with('user')->get();
+        // $charges = Charge::with('user')->get();
+        // return view('charges.index', compact('charges'));
+
+
+        $user = auth()->user();
+        $role = $user->role;
+
+        if ($role === Role::ADMIN) {
+            $charges = Charge::all();
+        } else {
+            $charges = Charge::where('user_id', $user->id)->get();
+        }
+
         return view('charges.index', compact('charges'));
     }
 

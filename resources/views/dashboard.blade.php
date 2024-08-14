@@ -11,6 +11,12 @@
                 <div class="p-6 text-gray-900">
                     {{ __("You're logged in! here") }}
                     {{-- @include('budgets.index') --}}
+
+                    {{-- <td>
+                        <a  href="#">Show</a>
+                        <a  href="#">Edit</a>
+                    </td> --}}
+
                 </div>
             </div>
         </div>
