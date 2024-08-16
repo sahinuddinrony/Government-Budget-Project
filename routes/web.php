@@ -25,6 +25,9 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/totalBudgetSammry', [SearchController::class, 'summary'])->name('search.summary');
 
+    Route::get('/budgetSearchForm', [SearchController::class, 'showSearchForm'])->name('search.showSearchForm');
+    Route::get('/budgetSearch', [SearchController::class, 'searchBetweenFiscalYears'])->name('search.searchBetweenFiscalYears');
+
     Route::get('/budgets/{budget}/pdf', [PDFController::class, 'downloadPDF'])->name('budgets.pdf');
 
 

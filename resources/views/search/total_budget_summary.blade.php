@@ -7,47 +7,47 @@
         @endif
 
         <div class="button-container no-print">
-            {{-- <a href="{{ route('budgets.pdf', $budget->id) }}" class="btn btn-primary">Download PDF</a> --}}
             <button onclick="window.print()" class="btn btn-secondary">Print</button>
         </div>
         <br>
-        <h2 style="text-align: center;">Budget Details for Fiscal Year: {{ $fiscal_year }}</h2>
+        <h2 style="text-align: center;">Budget Summary Across All Fiscal Years</h2>
         <h2><a href="{{ route('budgets.index') }}">Back to List</a></h2>
         <table>
             <tr>
-                <td rowspan="2">ক্রমিক</td>
-                <td rowspan="2">অর্থনৈতিক কোড</td>
-                <td rowspan="2">ব্যয়ের খাত</td>
-                <td colspan="3">বরাদ্ধ / ব্যয়ের হিসাব</td>
-            </tr>
-            <tr>
+                <td>ক্রমিক</td>
+                <td>অর্থনৈতিক কোড</td>
+                <td>ব্যয়ের খাত</td>
                 <td>মোট বরাদ্ধ</td>
                 <td>মোট ব্যয়</td>
                 <td>অব্যয়িত</td>
             </tr>
 
             @php
-                $totalAllocation = 0;
-                $totalExpenditure = 0;
-                $totalUnused = 0;
+                $groupedItems = $budgets->flatMap(function ($budget) {
+                    return $budget->items;
+                })->groupBy('item_name')->map(function ($items, $itemName) {
+                    return [
+                        'item_code' => $items->first()->item_code,
+                        'item_allocation' => $items->sum('item_allocation'),
+                        'item_expenditure' => $items->sum('item_expenditure'),
+                        'item_unused' => $items->sum('item_unused'),
+                    ];
+                });
+
+                $totalAllocation = $groupedItems->sum('item_allocation');
+                $totalExpenditure = $groupedItems->sum('item_expenditure');
+                $totalUnused = $groupedItems->sum('item_unused');
             @endphp
 
-            @foreach ($budgets as $index => $budget)
-                @foreach ($budget->items as $item)
-                @php
-                    $totalAllocation += $item->item_allocation;
-                    $totalExpenditure += $item->item_expenditure;
-                    $totalUnused += $item->item_unused;
-                @endphp
+            @foreach ($groupedItems as $itemName => $item)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $item->item_code }}</td>
-                    <td>{{ $item->item_name }}</td>
-                    <td>{{ \App\Helpers\NumberHelper::toBangla($item->item_allocation) }}</td>
-                    <td>{{ \App\Helpers\NumberHelper::toBangla($item->item_expenditure) }}</td>
-                    <td>{{ \App\Helpers\NumberHelper::toBangla($item->item_unused) }}</td>
+                    <td>{{ $item['item_code'] }}</td>
+                    <td>{{ $itemName }}</td>
+                    <td>{{ \App\Helpers\NumberHelper::toBangla($item['item_allocation']) }}</td>
+                    <td>{{ \App\Helpers\NumberHelper::toBangla($item['item_expenditure']) }}</td>
+                    <td>{{ \App\Helpers\NumberHelper::toBangla($item['item_unused']) }}</td>
                 </tr>
-                @endforeach
             @endforeach
 
             <tr>
@@ -78,9 +78,7 @@
             </tr>
             <tr>
                 <td colspan="4" class="text-right"><strong>সর্বশেষ অব্যয়িত টাকা=</strong></td>
-                <td>
-                    <strong>{{ \App\Helpers\NumberHelper::toBangla($finalUnused) }}</strong>
-                </td>
+                <td><strong>{{ \App\Helpers\NumberHelper::toBangla($finalUnused) }}</strong></td>
             </tr>
         </table>
     </div>
