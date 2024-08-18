@@ -10,13 +10,27 @@
             <button onclick="window.print()" class="btn btn-secondary">Print</button>
         </div>
         <br>
-        <h2 style="text-align: center;">Budget Summary Across All Fiscal Years</h2>
-        <h2><a href="{{ route('budgets.index') }}">Back to List</a></h2>
+        {{-- <h2 style="text-align: center;">Budget Summary Across All Fiscal Years</h2> --}}
+        <h2 style="text-align: center;">এক নজরে বাজেটের সারাং রিপোর্টের তথ্য</h2>
+        <h2 style="text-align: center;">২০২০ - ২০২১ থেকে ২০২৪ - ২০২৫ অর্থ বছর</h2>
+        <h2><a href="{{ route('budgets.index') }}" class="no-print">Back to List</a></h2>
         <table>
-            <tr>
+            {{-- <tr>
                 <td>ক্রমিক</td>
                 <td>অর্থনৈতিক কোড</td>
                 <td>ব্যয়ের খাত</td>
+                <td>মোট বরাদ্ধ</td>
+                <td>মোট ব্যয়</td>
+                <td>অব্যয়িত</td>
+            </tr> --}}
+
+            <tr>
+                <td rowspan="2">ক্রমিক</td>
+                <td rowspan="2">অর্থনৈতিক কোড</td>
+                <td rowspan="2">ব্যয়ের খাত</td>
+                <td colspan="3">বরাদ্ধ / ব্যয়ের হিসাব</td>
+            </tr>
+            <tr>
                 <td>মোট বরাদ্ধ</td>
                 <td>মোট ব্যয়</td>
                 <td>অব্যয়িত</td>
@@ -41,7 +55,7 @@
 
             @foreach ($groupedItems as $itemName => $item)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ \App\Helpers\NumberHelper::toBangla($loop->iteration) }}</td>
                     <td>{{ $item['item_code'] }}</td>
                     <td>{{ $itemName }}</td>
                     <td>{{ \App\Helpers\NumberHelper::toBangla($item['item_allocation']) }}</td>

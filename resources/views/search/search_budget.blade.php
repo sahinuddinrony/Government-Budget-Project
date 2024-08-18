@@ -2,10 +2,10 @@
 
 @section('content')
     <div class="container">
-        <h2 style="text-align: center;">Search Budget Between Fiscal Years</h2>
+        <h2 style="text-align: center;" class="no-print">Search Budget Between Fiscal Years</h2>
 
         <!-- Display the search form -->
-        <form action="{{ route('search.searchBetweenFiscalYears') }}" method="GET">
+        <form action="{{ route('search.searchBetweenFiscalYears') }}" method="GET" class="no-print">
             @csrf
 
             <div class="form-group">
@@ -39,12 +39,24 @@
                 <label for="end_fiscal_year">End Fiscal Year:</label>
                 <input type="text" name="end_fiscal_year" id="end_fiscal_year" class="form-control" placeholder="Enter End Fiscal Year" required>
             </div> --}}
+            <br>
             <button type="submit" class="btn btn-primary">Search</button>
         </form>
+        <br>
 
         <!-- Display the results only if budgets are set -->
-        @if(isset($budgets))
-            <h2 style="text-align: center;">Budget Summary Between Fiscal Years</h2>
+        @if (isset($budgets))
+
+            <div class="button-container no-print">
+                <button onclick="window.print()" class="btn btn-secondary">Print</button>
+            </div>
+
+            @php
+                $startFiscalYear;
+                $endFiscalYear;
+            @endphp
+            <h2 style="text-align: center;">Budget Summary Between Fiscal Years: {{ $startFiscalYear }} and
+                {{ $endFiscalYear }}</h2>
             <table>
                 <tr>
                     <td>ক্রমিক</td>
@@ -56,16 +68,19 @@
                 </tr>
 
                 @php
-                    $groupedItems = $budgets->flatMap(function ($budget) {
-                        return $budget->items;
-                    })->groupBy('item_name')->map(function ($items, $itemName) {
-                        return [
-                            'item_code' => $items->first()->item_code,
-                            'item_allocation' => $items->sum('item_allocation'),
-                            'item_expenditure' => $items->sum('item_expenditure'),
-                            'item_unused' => $items->sum('item_unused'),
-                        ];
-                    });
+                    $groupedItems = $budgets
+                        ->flatMap(function ($budget) {
+                            return $budget->items;
+                        })
+                        ->groupBy('item_name')
+                        ->map(function ($items, $itemName) {
+                            return [
+                                'item_code' => $items->first()->item_code,
+                                'item_allocation' => $items->sum('item_allocation'),
+                                'item_expenditure' => $items->sum('item_expenditure'),
+                                'item_unused' => $items->sum('item_unused'),
+                            ];
+                        });
 
                     $totalAllocation = $groupedItems->sum('item_allocation');
                     $totalExpenditure = $groupedItems->sum('item_expenditure');
@@ -88,6 +103,29 @@
                     <td>{{ \App\Helpers\NumberHelper::toBangla($totalAllocation) }}</td>
                     <td>{{ \App\Helpers\NumberHelper::toBangla($totalExpenditure) }}</td>
                     <td>{{ \App\Helpers\NumberHelper::toBangla($totalUnused) }}</td>
+                </tr>
+                @php
+                    $checkFeeTotal = $charges->sum('check_fee');
+                    $bankChargeTotal = $charges->sum('bank_charge');
+                    $unspentRefundTotal = $charges->sum('unspent_refund');
+                    $finalUnused = $totalUnused - ($checkFeeTotal + $bankChargeTotal + $unspentRefundTotal);
+                @endphp
+
+                <tr>
+                    <td colspan="4" class="text-right"><strong>চেক বই উত্তোলন=</strong></td>
+                    <td><strong>{{ \App\Helpers\NumberHelper::toBangla($checkFeeTotal) }}</strong></td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="text-right"><strong>ব্যাংক পরিচালনা ফিস=</strong></td>
+                    <td><strong>{{ \App\Helpers\NumberHelper::toBangla($bankChargeTotal) }}</strong></td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="text-right"><strong>অব্যয়িত অর্থ ফেরত=</strong></td>
+                    <td><strong>{{ \App\Helpers\NumberHelper::toBangla($unspentRefundTotal) }}</strong></td>
+                </tr>
+                <tr>
+                    <td colspan="4" class="text-right"><strong>সর্বশেষ অব্যয়িত টাকা=</strong></td>
+                    <td><strong>{{ \App\Helpers\NumberHelper::toBangla($finalUnused) }}</strong></td>
                 </tr>
             </table>
         @endif

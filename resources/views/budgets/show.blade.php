@@ -12,18 +12,18 @@
         </div>
         <br>
         <h2 style="text-align: center;">Budget Details for Fiscal Year: {{ $fiscal_year }}</h2>
-        <h2><a href="{{ route('budgets.index') }}">Back to List</a></h2>
+        <h2><a href="{{ route('budgets.index') }}" class="no-print">Back to List</a></h2>
         <table>
             <tr>
-                <td rowspan="2">ক্রমিক</td>
-                <td rowspan="2">অর্থনৈতিক কোড</td>
-                <td rowspan="2">ব্যয়ের খাত</td>
-                <td colspan="3">বরাদ্ধ / ব্যয়ের হিসাব</td>
+                <td rowspan="2" style="padding:5px; border:1px solid #000000; border-left:0px;font-weight:bold">ক্রমিক</td>
+                <td rowspan="2" style="padding:5px; border:1px solid #000000; border-left:0px;font-weight:bold">অর্থনৈতিক কোড</td>
+                <td rowspan="2" style="padding:5px; border:1px solid #000000; border-left:0px;font-weight:bold">ব্যয়ের খাত</td>
+                <td colspan="3" style="padding:5px; border:1px solid #000000; border-left:0px;font-weight:bold">বরাদ্ধ / ব্যয়ের হিসাব</td>
             </tr>
             <tr>
-                <td>মোট বরাদ্ধ</td>
-                <td>মোট ব্যয়</td>
-                <td>অব্যয়িত</td>
+                <td style="padding:5px; border:1px solid #000000; border-left:0px;font-weight:bold">মোট বরাদ্ধ</td>
+                <td style="padding:5px; border:1px solid #000000; border-left:0px;font-weight:bold">মোট ব্যয়</td>
+                <td style="padding:5px; border:1px solid #000000; border-left:0px;font-weight:bold">অব্যয়িত</td>
             </tr>
 
             @php
@@ -40,7 +40,7 @@
                     $totalUnused += $item->item_unused;
                 @endphp
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ \App\Helpers\NumberHelper::toBangla($loop->iteration) }}</td>
                     <td>{{ $item->item_code }}</td>
                     <td>{{ $item->item_name }}</td>
                     <td>{{ \App\Helpers\NumberHelper::toBangla($item->item_allocation) }}</td>

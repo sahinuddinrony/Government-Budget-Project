@@ -78,7 +78,10 @@
 
     th {
         background-color: #f2f2f2;
+        font-weight: bold
     }
+
+    /* style="padding:5px; border:1px solid #000000; border-left:0px;font-weight:bold" */
 
     .actions {
         display: flex;
@@ -187,10 +190,80 @@
         }
     } */
     @media print {
+
         .no-print,
-         header {
+        header {
             display: none;
         }
     }
+
+    select {
+        cursor: pointer;
+    }
+
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+
+    /* Dropdown Button with Icon */
+.dropdown-button {
+    background-color: #007bff; /* Primary color */
+    color: white;
+    padding: 10px 20px; /* Match button size with your button styling */
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center; /* Center icon vertically */
+    transition: background-color 0.3s;
+}
+
+.dropdown-button i {
+    font-size: 14px; /* Adjust icon size */
+    margin-left: 8px; /* Spacing between text and icon */
+}
+
+.dropdown-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+/* Dropdown Content */
+.dropdown-list {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    min-width: 160px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    z-index: 1;
+}
+
+.dropdown-list a {
+    color: #333;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid #ddd;
+}
+
+.dropdown-list a:last-child {
+    border-bottom: none;
+}
+
+.dropdown-list a:hover {
+    background-color: #f1f1f1;
+}
+
+/* Show the dropdown list on hover */
+.dropdown:hover .dropdown-list {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown list is shown */
+.dropdown:hover .dropdown-button {
+    background-color: #0056b3; /* Darker shade when dropdown is open */
+}
 
 </style>

@@ -82,6 +82,6 @@ class SearchController extends Controller
             ->whereBetween('fiscal_year', [$startFiscalYear, $endFiscalYear])
             ->get();
 
-        return view('search.search_budget', compact('budgets', 'charges'));
+        return view('search.search_budget', compact('budgets', 'charges', 'startFiscalYear', 'endFiscalYear'));
     }
 }

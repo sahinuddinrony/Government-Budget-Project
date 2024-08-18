@@ -2,7 +2,7 @@
     <div class="px-6 lg:px-12 py-6">
         <nav class="flex justify-between">
             <div class="flex w-full items-center">
-                <a href="{{ route('dashboard') }}">
+                <a href="{{ route('dashboard') }}" class="no-print">
                     Laravel CRUD
                 </a>
 
@@ -137,7 +137,7 @@
 
 
                     <!-- Authentication -->
-                    <form method="POST" action="{{ route('logout') }}">
+                    <form method="POST" action="{{ route('logout') }}" class="no-print">
                         @csrf
 
                         <x-responsive-nav-link :href="route('logout')"
@@ -152,7 +152,7 @@
                 <!-- Responsive Settings Options -->
                 <div class="pt-4 pb-1 border-t border-gray-200">
                     <div class="px-4">
-                        <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
+                        <div class="no-print" class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                         {{-- <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div> --}}
                     </div>
 
