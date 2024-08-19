@@ -12,6 +12,18 @@
                 {{-- <label for="start_fiscal_year">Start Fiscal Year:</label>
                 <input type="text" name="start_fiscal_year" id="start_fiscal_year" class="form-control" placeholder="Enter Start Fiscal Year" required> --}}
 
+                {{-- <div class="form-group">
+                    <label class="col-sm-2 control-label"><strong>Fiscal Year:</strong></label>
+                    <div class="col-sm-10">
+                        <select name="start_fiscal_year" class="form-control">
+                            @foreach($fiscalYears as $year)
+                                <option value="{{ $year }}">{{ $year }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                </br> --}}
+
 
                 <select id="start_fiscal_year" name="start_fiscal_year" required>
                     <option value="">--Select Fiscal Year--</option>

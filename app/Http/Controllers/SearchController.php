@@ -2,13 +2,57 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
+use App\Models\User;
 use App\Models\Budget;
 use App\Models\Charge;
+use App\Constants\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class SearchController extends Controller
 {
+    public function dashboard()
+    {
+        $user = Auth::user();
+        $role = $user->role;
+
+        // Initialize variables
+        $charges = collect();
+        $totalAllocation = $totalExpenditure = $totalUnused = $totalUnspentRefund = $totalUsers = 0;
+
+        if ($role === Role::ADMIN) {
+            $budgets = Budget::with('items')->get();
+
+            // Calculate totals for admin
+            $totalAllocation = Item::sum('item_allocation');
+            $totalExpenditure = Item::sum('item_expenditure');
+            $totalUnused = Item::sum('item_unused');
+            $totalUnspentRefund = Charge::sum('unspent_refund');
+            $totalUsers = User::count();  // Assuming you have a User model
+        } else {
+            $budgets = Budget::where('user_id', $user->id)->with('items')->get();
+            $charges = Charge::where('user_id', $user->id)->get();
+
+            $unspentRefund = $charges->sum('unspent_refund');
+            $fiscalYearCount = $charges->groupBy('fiscal_year')->count();
+        }
+
+        return view('dashboard', compact(
+            'budgets',
+            'role',
+            'charges',
+            'totalAllocation',
+            'totalExpenditure',
+            'totalUnused',
+            'totalUnspentRefund',
+            'totalUsers',
+            'unspentRefund',
+            'fiscalYearCount'
+        ));
+    }
+
     public function summary()
     {
         $userId = auth()->id();
@@ -53,7 +97,11 @@ class SearchController extends Controller
 
     public function showSearchForm()
     {
-        return view('search.search_budget');
+        $fiscalYears = Budget::distinct()
+            ->orderByRaw("CAST(SUBSTRING_INDEX(fiscal_year, '-', 1) AS UNSIGNED)")
+            ->pluck('fiscal_year');
+
+        return view('search.search_budget', compact('fiscalYears'));
     }
 
     public function searchBetweenFiscalYears(Request $request)

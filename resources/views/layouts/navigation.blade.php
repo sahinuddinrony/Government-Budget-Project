@@ -75,7 +75,7 @@
                             </a>
                         </li> --}}
                     @else
-                        <li class="mr-8 2xl:mr-14">
+                        {{-- <li class="mr-8 2xl:mr-14">
                             <a href="{{ route('budgets.index') }}"
                                 class="flex items-center font-heading font-medium hover:text-darkBlueGray-400">
                                 <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -86,7 +86,7 @@
                                 </svg>
                                 <span>Budget Show</span>
                             </a>
-                        </li>
+                        </li> --}}
 
                         <li class="mr-8 2xl:mr-14">
                             <a href="{{ route('budgets.create') }}"
@@ -97,11 +97,11 @@
                                     <path class="blueprint_een" d="M12,0L4,8v24h24V0H12z M12,8H6.828l5.176-5.176L12,8z M26,30H6V9h7V2h13V30z M10,16v4h4v4h4v-4
                                h4v-4h-4v-4h-4v4H10z M15,17v-4h2v4h4v2h-4v4h-2v-4h-4v-2H15z" />
                                 </svg>
-                                <span>Budget Create</span>
+                                <span>নতুন বাজেট যোগ করুন</span>
                             </a>
                         </li>
 
-                        <li class="mr-8 2xl:mr-14">
+                        {{-- <li class="mr-8 2xl:mr-14">
                             <a href="{{ route('charges.index') }}"
                                 class="flex items-center font-heading font-medium hover:text-darkBlueGray-400">
                                 <svg class="mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"
@@ -112,7 +112,8 @@
                                 </svg>
                                 <span>Charge</span>
                             </a>
-                        </li>
+                        </li> --}}
+
                         <li class="mr-8 2xl:mr-14">
                             <a href="{{ route('charges.create') }}"
                                 class="flex items-center font-heading font-medium hover:text-darkBlueGray-400">
@@ -122,7 +123,7 @@
                                     <path class="blueprint_een" d="M12,0L4,8v24h24V0H12z M12,8H6.828l5.176-5.176L12,8z M26,30H6V9h7V2h13V30z M10,16v4h4v4h4v-4
                                h4v-4h-4v-4h-4v4H10z M15,17v-4h2v4h4v2h-4v4h-2v-4h-4v-2H15z" />
                                 </svg>
-                                <span>Charge Create</span>
+                                <span>ব্যাংক ও অব্যয়িত অর্থ যোগ করুন</span>
                             </a>
                         </li>
                     @endif
@@ -180,4 +181,3 @@
         </nav>
     </div>
 </section>
-

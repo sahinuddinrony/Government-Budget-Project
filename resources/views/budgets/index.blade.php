@@ -96,17 +96,17 @@
                 @endphp
                 @foreach ($yearBudgets as $index => $budget)
                     <tr>
-                        <td>{{ $loop->parent->iteration }}.{{ $loop->iteration }}</td>
+                        <td>{{ \App\Helpers\NumberHelper::toBangla($loop->parent->iteration) }}.{{ \App\Helpers\NumberHelper::toBangla($loop->iteration )}}</td>
                         @if ($loop->first)
                             <td rowspan="{{ $rowCount }}">
                                 <a href="{{ route('budgets.show', $budget) }}">
-                                    {{ $budget->fiscal_year }}
+                                    {{ \App\Helpers\NumberHelper::toBangla($budget->fiscal_year) }}
                                 </a>
                             </td>
                         @endif
-                        <td>{{ $budget->allocation }}</td>
-                        <td>{{ $budget->expenditure }}</td>
-                        <td>{{ $budget->unused }}</td>
+                        <td>{{ \App\Helpers\NumberHelper::toBangla($budget->allocation) }}</td>
+                        <td>{{ \App\Helpers\NumberHelper::toBangla($budget->expenditure) }}</td>
+                        <td>{{ \App\Helpers\NumberHelper::toBangla($budget->unused) }}</td>
                         <td>
                             <a href="{{ route('budgets.show', $budget) }}" class="btn btn-info">View</a>
                             <a href="{{ route('budgets.edit', $budget) }}" class="btn btn-primary">Edit</a>
@@ -119,8 +119,8 @@
                     </tr>
                 @endforeach
                 <tr>
-                    <td colspan="2"><strong>{{ $year }} Fiscal Year Remaining Unused Budget</strong></td>
-                    <td colspan="3"><strong>{{ $finalUnusedBudget }}</strong></td>
+                    <td colspan="2"><strong>{{ \App\Helpers\NumberHelper::toBangla($year) }} অর্থবছরের সর্বশেষ অব্যয়িত মোট অর্থ</strong></td>
+                    <td colspan="3"><strong>{{ \App\Helpers\NumberHelper::toBangla($finalUnusedBudget) }}</strong></td>
                 </tr>
             @endforeach
 
