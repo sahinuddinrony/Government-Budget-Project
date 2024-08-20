@@ -73,7 +73,7 @@
 </div>
 
 <div class="container">
-    <h2 class="col-xs-12 col-sm-12 col-md-12 text-center">Add New Charge</h2>
+    <h2 class="col-xs-12 col-sm-12 col-md-12 text-center">অর্থবছর ভিত্তিক ব্যাংক চার্জের তথ্য | নতুন যোগ করুন</h2>
 </br>
 
     @if ($errors->any())
@@ -121,7 +121,7 @@
         @endif
 
         <div class="form-group">
-            <label class="col-sm-2 control-label"><strong>Fiscal Year:</strong></label>
+            <label class="col-sm-2 control-label"><strong>অর্থবছর:</strong></label>
             <div class="col-sm-10">
                 <select name="fiscal_year" class="form-control">
                     @foreach($fiscalYears as $year)
@@ -133,7 +133,7 @@
         </br>
 
         <div class="form-group">
-            <label class="col-sm-2 control-label"><strong>চেক বই উত্তোলন:</strong></label>
+            <label class="col-sm-2 control-label"><strong>চেক বই বাবদ খরচ:</strong></label>
             <div class="col-sm-10">
                 <input type="number" name="check_fee" class="form-control" placeholder="Check Fee">
             </div>
@@ -141,7 +141,7 @@
         </br>
 
         <div class="form-group">
-            <label class="col-sm-2 control-label"><strong>ব্যাংক পরিচালনা ফিস:</strong></label>
+            <label class="col-sm-2 control-label"><strong>ব্যাংক চার্জ বাবদ খরচ:</strong></label>
             <div class="col-sm-10">
                 <input type="number" name="bank_charge" class="form-control" placeholder="Bank Charge">
             </div>

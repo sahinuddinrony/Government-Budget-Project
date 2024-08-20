@@ -20,7 +20,7 @@ class SearchController extends Controller
 
         // Initialize variables
         $charges = collect();
-        $totalAllocation = $totalExpenditure = $totalUnused = $totalUnspentRefund = $totalUsers = 0;
+        $totalAllocation = $totalExpenditure = $totalUnused = $totalUnspentRefund = $totalUsers = $unspentRefund = $fiscalYearCount = 0;
 
         if ($role === Role::ADMIN) {
             $budgets = Budget::with('items')->get();
