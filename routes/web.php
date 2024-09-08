@@ -35,6 +35,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/budgets/{budget}/pdf', [PDFController::class, 'downloadPDF'])->name('budgets.pdf');
 
 
+
+    Route::get('/get-unspent-money', [ChargeController::class, 'getUnspentMoney'])->name('get.unspent.money');
+
+    
     // Route::get('/status', [UserApproveController::class, 'index'])->name('status.index');
     // Route::get('/status/edit/{id}', [UserApproveController::class, 'edit'])->name('status.edit');
     // Route::post('/status/update', [UserApproveController::class, 'update'])->name('status.update');

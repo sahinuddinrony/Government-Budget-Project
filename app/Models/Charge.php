@@ -12,10 +12,12 @@ class Charge extends Model
     use HasFactory;
 
     protected $fillable = [
+        'uuid',
         'fiscal_year',
         'bank_charge',
         'check_fee',
         'unspent_refund',
+        'unspent_money',
         'user_id',
 
     ];

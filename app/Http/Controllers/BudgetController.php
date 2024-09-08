@@ -18,7 +18,6 @@ class BudgetController extends Controller
 {
     public function index()
     {
-        // $budgets = Budget::all();
         // $budgets = Budget::with('user')->get();
         {
             $user = Auth::user();
@@ -33,21 +32,6 @@ class BudgetController extends Controller
                 $charges = Charge::where('user_id', $user->id)->get();
                 // dd($budgets);
             }
-
-            // $totalAllocation = 0;
-            // $totalExpenditure = 0;
-            // totalUnusedBudget = 0;
-
-            // $charges = Charge::where('user_id', $user->id)->get();
-            // dd($charges);
-
-            // $un = $budgets->sum('unused');
-            // // dd($un);
-            // $ct = $charges->sum('check_fee') + $charges->sum('bank_charge') + $charges->sum('unspent_refund');
-            // dd($ct);
-
-            // $totalUnusedBudget = $budgets->sum('unused') - ($charges->sum('check_fee') + $charges->sum('bank_charge') + $charges->sum('unspent_refund'));
-            // dd($totalUnusedBudget);
 
             return view('budgets.index', compact('budgets', 'role', 'charges'));
         }

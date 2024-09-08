@@ -51,7 +51,7 @@
             <input type="hidden" name="budget_id" value="{{ $charge->budget_id }}">
         @endif
 
-        <div class="form-group">
+        {{-- <div class="form-group">
             <label class="col-sm-2 control-label"><strong>Fiscal Year:</strong></label>
             <div class="col-sm-10">
                 <select name="fiscal_year" class="form-control">
@@ -61,7 +61,13 @@
                 </select>
             </div>
         </div>
-        </br>
+        </br> --}}
+
+        <div class="form-group">
+            <label for="fiscal_year">Fiscal Year</label>
+            <input type="text" name="fiscal_year" id="fiscal_year" class="form-control" value="{{ old('fiscal_year', $charge->fiscal_year) }}" required>
+        </div>
+
 
         <div class="form-group">
             <label class="col-sm-2 control-label"><strong>চেক বই উত্তোলন:</strong></label>
@@ -83,6 +89,14 @@
             <label class="col-sm-2 control-label"><strong>অব্যয়িত অর্থ ফেরত:</strong></label>
             <div class="col-sm-10">
                 <input type="number" name="unspent_refund" class="form-control" value="{{ $charge->unspent_refund }}" placeholder="Unspent Refund">
+            </div>
+        </div>
+        </br>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><strong>হস্তে মজুদ অথবা ব্যাংকে অবশিষ্ট অব্যয়িত অর্থ:</strong></label>
+            <div class="col-sm-10">
+                <input type="number" name="unspent_money" class="form-control" value="{{ $charge->unspent_money }}" placeholder="Unspent Refund">
             </div>
         </div>
         </br>
