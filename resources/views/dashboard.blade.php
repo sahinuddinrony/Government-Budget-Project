@@ -187,8 +187,8 @@
 
                                 <div class="bg-green-100 p-6 rounded-lg shadow">
                                     <div class="flex items-center">
-                                        <div class="bg-green-300 p-4 rounded-full text-white">
-                                            <span style="font-size: 3rem;">৳</span>
+                                        <div class="bg-green-500 p-4 rounded-full text-white">
+                                            <span style="font-size: 2rem;">৳</span>
                                             <!-- Enlarged Bangladeshi Taka symbol -->
                                         </div>
                                         <div class="ml-4">
@@ -235,6 +235,19 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="bg-teal-100 p-6 rounded-lg shadow">
+                                    <div class="flex items-center">
+                                        <div class="bg-teal-500 p-4 rounded-full text-white">
+                                            <i class="fas fa-box fa-2x"></i> <!-- Icon representing stocked items or resources -->
+                                        </div>
+                                        <div class="ml-4">
+                                            <h4 class="font-semibold text-gray-700">Stocked on hand</h4>
+                                            <p class="text-2xl font-bold">{{ $unspentMoney }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
 
 
                                 <div class="bg-yellow-100 p-6 rounded-lg shadow-lg">

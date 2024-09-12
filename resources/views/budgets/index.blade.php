@@ -14,8 +14,8 @@
     <a href="{{ route('search.showSearchForm') }}" class="btn btn-primary mb-3">Search Budget</a>
 
     @if ($role === \App\Constants\Role::ADMIN)
-        <a href="{{ route('budgets.create') }}" class="btn btn-primary mb-3">Create New Budget</a>
-        <br>
+        {{-- <a href="{{ route('budgets.create') }}" class="btn btn-primary mb-3">Create New Budget</a>
+        <br> --}}
 
         <table border="1">
             <thead>
@@ -23,7 +23,7 @@
                     <th>No</th>
                     <th>User</th>
                     <th>Fiscal Year</th>
-                    <th>Item Name</th>
+                    {{-- <th>Item Name</th> --}}
                     <th>Allocation</th>
                     <th>Expenditure</th>
                     <th>Unused</th>
@@ -40,7 +40,7 @@
                                 {{ $budget->fiscal_year }}
                             </a>
                         </td>
-                        <td>{{ $budget->item_name }}</td>
+                        {{-- <td>{{ $budget->item_name }}</td> --}}
                         <td>{{ $budget->allocation }}</td>
                         <td>{{ $budget->expenditure }}</td>
                         <td>{{ $budget->unused }}</td>

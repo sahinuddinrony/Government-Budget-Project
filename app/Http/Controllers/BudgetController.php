@@ -26,6 +26,7 @@ class BudgetController extends Controller
             if ($role === Role::ADMIN) {
                 // $budgets = Budget::all();
                 $budgets = Budget::with('items')->get();
+                $charges = Charge::all();
             } else {
                 // $budgets = Budget::where('user_id', $user->id)->get();
                 $budgets = Budget::where('user_id', $user->id)->with('items')->get();

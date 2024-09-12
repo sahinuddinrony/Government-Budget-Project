@@ -30,7 +30,7 @@
                     <td>{{ $charge->bank_charge }}</td>
                     <td>{{ $charge->check_fee }}</td>
                     <td>{{ $charge->unspent_refund }}</td>
-                    <td>#</td>
+                    <td>{{ $charge->bank_charge + $charge->check_fee + $charge->unspent_refund }}</td>
                     {{-- <td>{{ $charge->budget->item_name }}</td> --}}
                     {{-- <td>{{ $charge->user->name }}</td> --}}
                     <td>
@@ -48,7 +48,7 @@
                 </tr>
                 <tr>
                     <td colspan="5"><strong> অর্থবছরের হস্তে মজুদ অথবা ব্যাংকে অবশিষ্ট অব্যয়িত অর্থ </strong></td>
-                    <td colspan="3"><strong>{{ $charge->unspent_money }}</strong></td>
+                    <td colspan="1"><strong>{{ $charge->unspent_money }}</strong></td>
                 </tr>
             @endforeach
         </table>

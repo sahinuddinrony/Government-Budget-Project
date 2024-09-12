@@ -20,7 +20,7 @@ class SearchController extends Controller
 
         // Initialize variables
         $charges = collect();
-        $totalAllocation = $totalExpenditure = $totalUnused = $totalUnspentRefund = $totalUsers = $unspentRefund = $fiscalYearCount = 0;
+        $totalAllocation = $totalExpenditure = $totalUnused = $totalUnspentRefund = $totalUsers = $unspentRefund = $unspentMoney = $fiscalYearCount = 0;
 
         if ($role === Role::ADMIN) {
             $budgets = Budget::with('items')->get();
@@ -36,6 +36,7 @@ class SearchController extends Controller
             $charges = Charge::where('user_id', $user->id)->get();
 
             $unspentRefund = $charges->sum('unspent_refund');
+            $unspentMoney = $charges->sum('unspent_money');
             $fiscalYearCount = $charges->groupBy('fiscal_year')->count();
         }
 
@@ -49,6 +50,7 @@ class SearchController extends Controller
             'totalUnspentRefund',
             'totalUsers',
             'unspentRefund',
+            'unspentMoney',
             'fiscalYearCount'
         ));
     }

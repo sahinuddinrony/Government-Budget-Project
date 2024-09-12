@@ -27,8 +27,13 @@ class ChargeController extends Controller
             // $totalCharge = $charges->sum($charge->bank_charge + $charge->check_fee + $charge->unspent_refund);
         }
 
+        // Calculate the total charge for all the retrieved charges
+        $totalCharge = $charges->sum(function ($charge) {
+            return $charge->bank_charge + $charge->check_fee + $charge->unspent_refund;
+        });
 
-        return view('charges.index', compact('charges'));
+
+        return view('charges.index', compact('charges', 'totalCharge'));
 
         // return view('charges.index', compact('charges'));
     }
