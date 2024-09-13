@@ -45,12 +45,12 @@
                         <td>{{ $budget->expenditure }}</td>
                         <td>{{ $budget->unused }}</td>
                         <td>
-                            <a href="{{ route('budgets.show', $budget) }}">View</a>
-                            <a href="{{ route('budgets.edit', $budget) }}">Edit</a>
+                            <a href="{{ route('budgets.show', $budget) }}" class="btn btn-info">View</a>
+                            <a href="{{ route('budgets.edit', $budget) }}" class="btn btn-primary">Edit</a>
                             <form action="{{ route('budgets.destroy', $budget) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+                                <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-danger">Delete</button>
                             </form>
                         </td>
                     </tr>
@@ -58,7 +58,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="4">Total</td>
+                    <td colspan="3">Total</td>
                     <td>{{ $budgets->sum('allocation') }}</td>
                     <td>{{ $budgets->sum('expenditure') }}</td>
                     <td>{{ $budgets->sum('unused') }}</td>

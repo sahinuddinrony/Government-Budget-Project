@@ -1,24 +1,6 @@
-{{-- <!doctype html>
-<html lang="en"> --}}
-
 @extends('layouts.app')
 
-    @section('content')
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <title>User, Show!</title>
-</head>
-
-<body>
-
-
+@section('content')
     {{-- <div class="text-center">
         <h1>Message Send All</h1>
         <p>New Anouncment Send to All Subscribe.</p>
@@ -54,7 +36,7 @@
                                             <td>{{ $allUser->created_at->format('Y-m-d H:i:s') }}</td>
                                             <td>{{ $allUser->status }}</td>
                                             <td>
-                                                <a href="{{ route('status.edit', $allUser) }}">Edit</a>
+                                                <a href="{{ route('status.edit', $allUser) }}" class="btn btn-primary">Edit</a>
                                             </td>
 
                                         </tr>
@@ -67,11 +49,4 @@
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
-</body>
-
 @endsection
-
-{{-- </html> --}}

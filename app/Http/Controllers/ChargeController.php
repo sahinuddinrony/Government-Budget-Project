@@ -33,7 +33,7 @@ class ChargeController extends Controller
         });
 
 
-        return view('charges.index', compact('charges', 'totalCharge'));
+        return view('charges.index', compact('role', 'charges', 'totalCharge'));
 
         // return view('charges.index', compact('charges'));
     }

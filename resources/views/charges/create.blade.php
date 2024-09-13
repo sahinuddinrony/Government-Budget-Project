@@ -42,36 +42,34 @@
                 </div>
 
 
-            </br>
-            <div class="form-group">
-                <label class="col-sm-2 control-label"><strong>মোট অব্যয়িত অর্থ (কোন কর্তন ছাড়া):</strong></label>
-                <div class="col-sm-10">
-                    <input type="number" id="unspent_money" name="unspent_money" class="form-control"
-                        placeholder="Unspent Money" readonly>
+                </br>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><strong>মোট অব্যয়িত অর্থ (কোন কর্তন ছাড়া):</strong></label>
+                    <div class="col-sm-10">
+                        <input type="number" id="unspent_money" name="unspent_money" class="form-control"
+                            placeholder="Unspent Money" readonly>
+                    </div>
                 </div>
-            </div>
-            </br>
+                </br>
 
-            <div class="form-group">
-                <label class="col-sm-2 control-label"><strong>ব্যাংক বাবদ মোট খরচ:</strong></label>
-                <div class="col-sm-10">
-                    <input type="number" id="total_expenditure" name="total_expenditure" class="form-control"
-                        placeholder="Total Bank Expenditure" readonly>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><strong>ব্যাংক বাবদ মোট খরচ:</strong></label>
+                    <div class="col-sm-10">
+                        <input type="number" id="total_expenditure" name="total_expenditure" class="form-control"
+                            placeholder="Total Bank Expenditure" readonly>
+                    </div>
                 </div>
-            </div>
-            </br>
+                </br>
 
-            <div class="form-group">
-                <label class="col-sm-2 control-label"><strong>মোট স্থিতি অর্থ (যাহা অব্যয়িত অর্থ হিসাবে ফেরত দিতে
-                        হবে):</strong></label>
-                <div class="col-sm-10">
-                    <input type="number" id="total_balance" name="total_balance" class="form-control"
-                        placeholder="Total Balance" readonly>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><strong>মোট স্থিতি অর্থ (যাহা অব্যয়িত অর্থ হিসাবে ফেরত দিতে
+                            হবে):</strong></label>
+                    <div class="col-sm-10">
+                        <input type="number" id="total_balance" name="total_balance" class="form-control"
+                            placeholder="Total Balance" readonly>
+                    </div>
                 </div>
-            </div>
-            </br>
-
-
+                </br>
             </div>
 
             <div class="container">
