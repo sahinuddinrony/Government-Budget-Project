@@ -148,8 +148,8 @@ class ChargeController extends Controller
             'check_fee' => 'required|numeric',
             'unspent_refund' => 'required|numeric',
             'unspent_money' => 'required|numeric',
-            'user_id' => auth()->user()->isAdmin() ? 'required|exists:users,id' : 'nullable',
-            'budget_id' => auth()->user()->isAdmin() ? 'required|exists:budgets,id' : 'nullable',
+            // 'user_id' => auth()->user()->isAdmin() ? 'required|exists:users,id' : 'nullable',
+            // 'budget_id' => auth()->user()->isAdmin() ? 'required|exists:budgets,id' : 'nullable',
         ]);
 
         // if (!auth()->user()->isAdmin()) {
@@ -169,6 +169,7 @@ class ChargeController extends Controller
         // if ($chargeExists) {
         //     return redirect()->back()->withErrors(['fiscal_year' => 'You have already created a charge for this fiscal year.']);
         // }
+
 
         $charge->update($data);
 

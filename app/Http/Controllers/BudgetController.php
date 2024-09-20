@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BudgetRequest;
+use App\Http\Requests\UpdateBudgetRequest;
+use App\Services\BudgetService;
 use Illuminate\Support\Facades\Auth;
 
 class BudgetController extends Controller
@@ -43,43 +45,11 @@ class BudgetController extends Controller
         return view('budgets.create');
     }
 
-    public function store(BudgetRequest $request)
+    public function store(BudgetRequest $request, BudgetService $budgetService)
     {
-        // dd($request);
         $data = $request->validated();
 
-        $data['uuid'] = Str::uuid();
-
-        // Check for existing budget
-        if (Budget::where('user_id', auth()->id())
-            ->where('fiscal_year', $data['fiscal_year'])
-            ->exists()
-        ) {
-            return redirect()->back()->with('success', 'Budget already exists.');
-        }
-
-        // Create the budget
-        $budget = Budget::create([
-            // 'uuid' => Str::uuid(),
-            'uuid' => $data['uuid'],
-            'fiscal_year' => $data['fiscal_year'],
-            'allocation' => array_sum($data['allocation']),
-            'expenditure' => array_sum($data['expenditure']),
-            'unused' => array_sum($data['allocation']) - array_sum($data['expenditure']),
-            'user_id' => auth()->id(),
-        ]);
-
-        foreach ($data['item_name'] as $index => $itemName) {
-            Item::create([
-                'uuid' => Str::uuid(),
-                'budget_id' => $budget->id,
-                'item_code' => $data['item_code'][$index] ?? null,
-                'item_name' => $itemName,
-                'item_allocation' => $data['allocation'][$index],
-                'item_expenditure' => $data['expenditure'][$index],
-                'item_unused' => $data['allocation'][$index] - $data['expenditure'][$index],
-            ]);
-        }
+        $budgetService->store($data);
 
         return redirect()->route('budgets.index')->with('success', 'Budget created successfully.');
     }
@@ -90,9 +60,6 @@ class BudgetController extends Controller
     {
         $userId = auth()->id();
 
-        // Retrieve budgets for the authenticated user and the selected fiscal year
-        // $budgets = Budget::with('charges')
-
         $budgets = Budget::with('items')
             ->where('user_id', $userId)
             ->where('fiscal_year', $budget->fiscal_year)
@@ -102,7 +69,6 @@ class BudgetController extends Controller
             return redirect()->route('budgets.index')->with('error', 'No budgets found for the selected fiscal year.');
         }
 
-        // Retrieve charges related to the budgets for the selected fiscal year
         $charges = Charge::where('user_id', $userId)
             ->where('fiscal_year', $budget->fiscal_year)
             ->get();
@@ -133,35 +99,23 @@ class BudgetController extends Controller
         return view('budgets.edit', compact('budget', 'charges'));
     }
 
-    public function update(Request $request, Budget $budget)
+    public function update(UpdateBudgetRequest $request, Budget $budget, BudgetService $budgetService)
     {
-        $data = $request->validate([
-            'fiscal_year' => 'required',
-            'items.*.item_code' => 'required',
-            'items.*.item_name' => 'required',
-            'items.*.item_allocation' => 'required|numeric',
-            'items.*.item_expenditure' => 'required|numeric',
-            'items.*.item_unused' => 'required|numeric',
-        ]);
+        // $data = $request->validate([
+        //     'fiscal_year' => 'required',
+        //     'items.*.item_code' => 'required',
+        //     'items.*.item_name' => 'required',
+        //     'items.*.item_allocation' => 'required|numeric',
+        //     'items.*.item_expenditure' => 'required|numeric',
+        //     'items.*.item_unused' => 'required|numeric',
+        // ]);
 
+        $data = $request->validated();
 
         // $budget->update($request->only(['fiscal_year', 'item_allocation']));
 
-        $totalAllocation = 0;
-        $totalExpenditure = 0;
-
-        foreach ($data['items'] as $itemData) {
-            $totalAllocation += $itemData['item_allocation'];
-            $totalExpenditure += $itemData['item_expenditure'];
-        }
-
-        $budget->update([
-            'fiscal_year' => $data['fiscal_year'],
-            'allocation' => $totalAllocation,
-            'expenditure' => $totalExpenditure,
-            'unused' => $totalAllocation - $totalExpenditure,
-        ]);
-
+        $budgetService->update($data, $budget);
+        
         foreach ($request->items as $itemData) {
             $item = $budget->items()->find($itemData['id']);
             if ($item) {

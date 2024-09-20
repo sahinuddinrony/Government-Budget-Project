@@ -22,7 +22,7 @@
         @method('PUT')
 
         @if(auth()->user()->isAdmin())
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <label class="col-sm-2 control-label"><strong>Budget Item:</strong></label>
                 <div class="col-sm-10">
                     <select name="budget_id" class="form-control" required>
@@ -31,7 +31,7 @@
                         @endforeach
                     </select>
                 </div>
-            </div>
+            </div> --}}
             </br>
 
             <div class="form-group">
