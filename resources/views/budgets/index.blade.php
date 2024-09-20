@@ -65,6 +65,9 @@
                     <td></td>
                 </tr>
             </tfoot>
+            {{-- <div class="p-4">
+                    {{ $budgets->links() }}
+                </div> --}}
         </table>
     @else
         @php
@@ -127,6 +130,9 @@
             </tbody>
         </table>
     @endif
+    <div class="p-4">
+                    {{ $budgets->links() }}
+                </div>
 
 @endsection
 

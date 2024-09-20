@@ -27,11 +27,11 @@ class BudgetController extends Controller
 
             if ($role === Role::ADMIN) {
                 // $budgets = Budget::all();
-                $budgets = Budget::with('items')->get();
+                $budgets = Budget::with('items')->paginate(6);
                 $charges = Charge::all();
             } else {
                 // $budgets = Budget::where('user_id', $user->id)->get();
-                $budgets = Budget::where('user_id', $user->id)->with('items')->get();
+                $budgets = Budget::where('user_id', $user->id)->with('items')->paginate(5);
                 $charges = Charge::where('user_id', $user->id)->get();
                 // dd($budgets);
             }
@@ -110,18 +110,18 @@ class BudgetController extends Controller
         //     'items.*.item_unused' => 'required|numeric',
         // ]);
 
-        $data = $request->validated();
+        $validateddata = $request->validated();
 
         // $budget->update($request->only(['fiscal_year', 'item_allocation']));
 
-        $budgetService->update($data, $budget);
-        
-        foreach ($request->items as $itemData) {
-            $item = $budget->items()->find($itemData['id']);
-            if ($item) {
-                $item->update($itemData);
-            }
-        }
+        $budgetService->update($validateddata, $budget);
+
+        // foreach ($request->items as $itemData) {
+        //     $item = $budget->items()->find($itemData['id']);
+        //     if ($item) {
+        //         $item->update($itemData);
+        //     }
+        // }
 
         return redirect()->route('budgets.show', $budget->id)->with('success', 'Budget updated successfully.');
     }

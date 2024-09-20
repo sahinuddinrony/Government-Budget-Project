@@ -45,23 +45,43 @@ class BudgetService
         }
     }
 
-    public function update($data, Budget $budget)
+    // public function update($data, Budget $budget)
+    // {
+    //     $totalAllocation = 0;
+    //     $totalExpenditure = 0;
+
+    //     foreach ($data['items'] as $itemData) {
+    //         $totalAllocation += $itemData['item_allocation'];
+    //         $totalExpenditure += $itemData['item_expenditure'];
+    //     }
+
+    //     $budget->update([
+    //         'fiscal_year' => $data['fiscal_year'],
+    //         'allocation' => $totalAllocation,
+    //         'expenditure' => $totalExpenditure,
+    //         'unused' => $totalAllocation - $totalExpenditure,
+    //     ]);
+    // }
+
+    public function update(array $data, Budget $budget)
     {
         $totalAllocation = 0;
         $totalExpenditure = 0;
 
         foreach ($data['items'] as $itemData) {
+            $item = $budget->items()->find($itemData['id']);
+            if ($item) {
+                $item->update($itemData);
+            }
+
             $totalAllocation += $itemData['item_allocation'];
             $totalExpenditure += $itemData['item_expenditure'];
         }
-
         $budget->update([
             'fiscal_year' => $data['fiscal_year'],
             'allocation' => $totalAllocation,
             'expenditure' => $totalExpenditure,
             'unused' => $totalAllocation - $totalExpenditure,
         ]);
-
-        
     }
 }

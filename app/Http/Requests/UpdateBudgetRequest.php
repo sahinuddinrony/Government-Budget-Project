@@ -23,6 +23,8 @@ class UpdateBudgetRequest extends FormRequest
     {
         return [
             'fiscal_year' => 'required',
+            // 'items' => 'required|array',
+            'items.*.id' => 'sometimes|exists:items,id',
             'items.*.item_code' => 'required',
             'items.*.item_name' => 'required',
             'items.*.item_allocation' => 'required|numeric',
